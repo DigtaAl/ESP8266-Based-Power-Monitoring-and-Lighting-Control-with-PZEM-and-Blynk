@@ -77,9 +77,56 @@ void loop() {
   float power = pzem.power();
 
   // Send data to Blynk app
+
+
   Blynk.virtualWrite(V1, voltage);  // V1 for voltage
   Blynk.virtualWrite(V2, current);  // V2 for current
   Blynk.virtualWrite(V3, power);    // V3 for power
 
   // Add logic for lighting control here
 }
+```
+## Step 4: Wiring the Circuit
+- **PZEM-004T Connections**:
+  - Connect the **TX pin** of the PZEM sensor to the **D1 pin** of the ESP8266.
+  - Connect the **RX pin** of the PZEM sensor to the **D2 pin** of the ESP8266.
+  - Connect the **GND** and **VCC** pins of the PZEM sensor to the **GND** and **3.3V** pins of the ESP8266.
+
+- **Relay Module Connections**:
+  - Connect the **IN pin** of the relay module to a **digital pin** of the ESP8266 (e.g., D5).
+  - Connect the **VCC** and **GND** pins of the relay to the corresponding pins on the ESP8266.
+  - The relay’s **NO (Normally Open)** pin should be connected to one side of the lighting system.
+  - The other side of the lighting system should be connected to the power supply.
+  
+- **Power Supply**:
+  Ensure the ESP8266 and the lighting system have proper power supply connections.
+
+### Step 5: Flash the Code
+1. Connect the ESP8266 to your computer via USB.
+2. In the Arduino IDE, select the **ESP8266** board and the appropriate port.
+3. Compile and upload the sketch provided in **Step 3** to the ESP8266.
+
+### Step 6: Blynk App Configuration
+1. Open the **Blynk** app on your mobile device.
+2. Monitor the **current**, **voltage**, and **power** values in real-time via the **labeled value** widgets.
+3. Use the **button widget** to control the lighting system remotely.
+
+## Usage
+- Once the system is up and running, you can remotely monitor and control your electrical system.
+- Open the Blynk app to see real-time data for voltage, current, and power.
+- Press the **control button** to turn the lighting on or off.
+  
+This system allows easy monitoring of power consumption and gives you control over lighting through a simple interface.
+
+## Future Enhancements
+- **Power Usage History**: Implement a feature to store and analyze historical power usage trends.
+- **Abnormal Consumption Alerts**: Add notifications to alert users when power consumption exceeds predefined limits.
+- **Advanced Control**: Expand the system to control multiple devices or add automation based on energy consumption data.
+
+## Troubleshooting
+- Ensure that the ESP8266 is properly connected to Wi-Fi and Blynk is connected.
+- Double-check the wiring between the ESP8266, PZEM sensor, and relay module if values are not showing correctly.
+- Verify the correct power supply for both the ESP8266 and lighting system.
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
