@@ -23,9 +23,6 @@ This project demonstrates how to monitor and control electrical parameters such 
 - **Blynk Library** (installed in Arduino IDE)
 - **PZEM-004T Library** (for interfacing with the sensor)
 
-## Circuit Diagram
-(Include a circuit diagram here, or describe how to wire the ESP8266 with the PZEM-004T sensor and the relay module for light control.)
-
 ## Setup Instructions
 ### Step 1: Install Libraries
 In the Arduino IDE, install the following libraries:
