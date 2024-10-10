@@ -42,45 +42,68 @@ In the Arduino IDE, install the following libraries:
 - Code for controlling the relay module connected to the lighting system.
 
 ```cpp
-// Include necessary libraries
+#include <Wire.h>
 #include <ESP8266WiFi.h>
+#include <SoftwareSerial.h>
+#include <PZEM004Tv30.h>
+
+#define BLYNK_PRINT Serial
+/* Fill in information from Blynk Device Info here */
+#define BLYNK_TEMPLATE_ID "TMPL6_Yh3lloY"
+#define BLYNK_TEMPLATE_NAME "KontroldanMonitoring"
+#define BLYNK_AUTH_TOKEN "CprE21zEKhSN4elWLJWUHs1q-5X7asj2"
 #include <BlynkSimpleEsp8266.h>
-#include <PZEM004T.h>
+// Your WiFi credentials.
+char ssid[] = "Al-Aadiyaat";
+char pass[] = "alaadiyaat23";
 
-// Blynk authentication token
-char auth[] = "YourBlynkAuthToken";
+PZEM004Tv30 pzem(D4, D3); // D6, D5, (RX,TX) connect to TX,RX of PZEM
 
-// Your WiFi credentials
-char ssid[] = "YourWiFiSSID";
-char pass[] = "YourWiFiPassword";
+#define PIN_RELAY_1  D6 // The ESP8266 pin connected to the IN1 pin of relay module
+#define PIN_RELAY_2  D7 // The ESP8266 pin connected to the IN2 pin of relay module
 
-// PZEM sensor
-PZEM004T pzem(D1, D2);  // RX, TX for ESP8266
+
+float voltage;
+float current;
+float power;
+
 
 void setup() {
-  // Initialize serial communication
   Serial.begin(9600);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
 
-  // Initialize Blynk
-  Blynk.begin(auth, ssid, pass);
+  // Configure the ESP8266 pin as an digital output.
+  pinMode(PIN_RELAY_1, OUTPUT);
+  pinMode(PIN_RELAY_2, OUTPUT);
 }
 
 void loop() {
+
   Blynk.run();
 
-  // Read current, voltage, and power from the PZEM
-  float voltage = pzem.voltage();
-  float current = pzem.current();
-  float power = pzem.power();
+  /*digitalWrite(PIN_RELAY_1, HIGH);
+  digitalWrite(PIN_RELAY_2, HIGH);
+  delay(2000);
 
-  // Send data to Blynk app
+  digitalWrite(PIN_RELAY_1, LOW);
+  digitalWrite(PIN_RELAY_2, LOW);
+  delay(2000);*/
 
+  voltage = pzem.voltage();
+  current = pzem.current();
+  power = pzem.power();
 
-  Blynk.virtualWrite(V1, voltage);  // V1 for voltage
-  Blynk.virtualWrite(V2, current);  // V2 for current
-  Blynk.virtualWrite(V3, power);    // V3 for power
+   Blynk.virtualWrite(V0, voltage);
+   Blynk.virtualWrite(V1, current);
+   Blynk.virtualWrite(V2, power);
 
-  // Add logic for lighting control here
+  /*
+  Serial.print("VoltageAC: ");      Serial.print(voltage);      Serial.println("V");
+  Serial.print("CurrentAC: ");      Serial.print(current);      Serial.println("A");
+  Serial.print("PowerAC: ");        Serial.print(power);        Serial.println("W");
+  */
+  
+  delay(500);
 }
 ```
 ## Step 4: Wiring the Circuit
